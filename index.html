@@ -189,34 +189,27 @@
         document.getElementById("timezone_code").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone
 
         function updateInformation() {
-            let local_time = (new Date())
+            const local_time = (new Date())
             document.getElementById("current").textContent = local_time.toLocaleString('en-GB').split(" ")[1]
 
-            let timezone = document.getElementById("timezone_input").value.split(" ").join("_")
-            if (timezone !== "") {
-                try {
-                    let time = (new Date()).toLocaleString('en-GB', { timeZone: timezone })
-                    document.getElementById("current_custom").textContent = time.split(" ")[1]
+            const timezone = document.getElementById("timezone_input").value.split(" ").join("_")
+            try {
+                const time = (new Date()).toLocaleString('en-GB', { timeZone: timezone })
+                document.getElementById("current_custom").textContent = time.split(" ")[1]
 
-                    let custom_time = parseStringToDate(time)
+                const custom_time = parseStringToDate(time)
 
-                    const difference_miliseconds = custom_time - local_time
-                    const difference_hours = Math.round(difference_miliseconds / (1000 * 60)) / 60
-                    const difference_minutes = (difference_hours - Math.floor(difference_hours)) * 60
+                const difference_miliseconds = custom_time - local_time
+                const difference_hours = Math.round(difference_miliseconds / (1000 * 60)) / 60
+                const difference_minutes = (difference_hours - Math.floor(difference_hours)) * 60
 
-                    document.getElementById("difference").textContent = (
-                        (difference_hours >= 0 ? "+" : "-")
-                        + String(Math.abs(Math.trunc(difference_hours))).padStart(2, "0")
-                        + ":" + String(difference_minutes).padStart(2, "0")
-                    )
-
-
-                    history.replaceState("", "", "#" + timezone)
-                } catch (_) {
-                    document.getElementById("current_custom").textContent = "##:##:##"
-                    document.getElementById("difference").textContent = "±##:##"
-                }
-            } else {
+                document.getElementById("difference").textContent = (
+                    (difference_hours >= 0 ? "+" : "-")
+                    + String(Math.abs(Math.trunc(difference_hours))).padStart(2, "0")
+                    + ":" + String(difference_minutes).padStart(2, "0")
+                )
+                history.replaceState("", "", "#" + timezone)
+            } catch (_) {
                 document.getElementById("current_custom").textContent = "##:##:##"
                 document.getElementById("difference").textContent = "±##:##"
             }

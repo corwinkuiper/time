@@ -191,17 +191,17 @@
         document.getElementById("timezone_code").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone
 
         function updateInformation() {
-            const local_time = (new Date())
-            document.getElementById("current").textContent = local_time.toLocaleString('en-GB').split(" ")[1]
+            const current_time = (new Date())
+            document.getElementById("current").textContent = current_time.toLocaleString('en-GB').split(" ")[1]
 
             const timezone = document.getElementById("timezone_input").value.split(" ").join("_")
             try {
-                const time = (new Date()).toLocaleString('en-GB', { timeZone: timezone })
-                document.getElementById("current_custom").textContent = time.split(" ")[1]
+                const custom_timezone_time_string = current_time.toLocaleString('en-GB', { timeZone: timezone })
+                document.getElementById("current_custom").textContent = custom_timezone_time_string.split(" ")[1]
 
-                const custom_time = parseStringToDate(time)
+                const custom_timezone_as_localtime = parseStringToDate(custom_timezone_time_string)
 
-                const difference_miliseconds = custom_time - local_time
+                const difference_miliseconds = custom_timezone_as_localtime - current_time
                 const difference_hours = Math.round(difference_miliseconds / (1000 * 60)) / 60
                 const difference_minutes = (difference_hours - Math.floor(difference_hours)) * 60
 
